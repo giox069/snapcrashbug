@@ -10,14 +10,15 @@ Execute it
 ```
 prova1
 ```
-And enjoy the crash
+And enjoy the crash.
+Then see the journal
 ```
 journalctl -xe
 ```
  prova1[2476]: segfault at 0 ip 00007f0c8dcc9dd6 sp 00007ffcd6197dd0 error 4 in libwayland-client.so.0.3.0[7f0c8dcc4000+c000]
 
 
-TO BUILD IT:
+## TO BUILD IT:
 
 I build it with docker + xenial, by copying and pasting one line at a time
 
@@ -39,5 +40,19 @@ sudo docker exec -i cbbuilder snapcraft
 sudo docker exec -i cbbuilder snapcraft clean
 sudo docker stop cbbuilder
 sudo docker rm cbbuilder
+```
+
+The only **workaround** I found is to disable Wayland by defining DISALBE_WAYLAND to
+a nonempty value before executing desktop-launch.
+But the app will run under XWayland, now Wayland.
+
+```
+...
+apps:
+  prova1:
+    environment:
+      DISABLE_WAYLAND: 1
+    command: desktop-launch prova1
+...
 ```
 
